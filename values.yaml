@@ -1,0 +1,5 @@
+namespace: lms
+serviceAccounts:
+  - db-sa
+  - app-sa
+  - web-sa

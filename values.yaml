@@ -1,4 +1,4 @@
-namespace: lms
+namespace: lms1
 serviceAccounts:
   - db-sa
   - app-sa

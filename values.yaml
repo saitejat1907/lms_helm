@@ -1,5 +1,39 @@
-namespace: lms1
+namespace: lms1  # Namespace for both Deployment and Service
+
 serviceAccounts:
-  - db-sa
-  - app-sa
-  - web-sa
+  - db-sa  # Service account for database tasks
+  - app-sa # Service account for application tasks
+  - web-sa # Service account for web tasks
+
+postgres:
+  password: admin12345 # PostgreSQL database password
+
+deployment:
+  name: postgres-deployment # Name of the PostgreSQL Deployment
+
+labels:
+  app: postgres-app     # Application label
+  component: postgres   # Component label for both Deployment and Service
+
+replicas: 1             # Number of replica pods
+
+container:
+  name: postgres         # Name of the container
+  image: postgres:latest # Docker image for the container
+  port: 5432             # Container port for PostgreSQL
+
+service:
+  name: postgres-cluster-ip-service # Name of the PostgreSQL Service
+  type: ClusterIP                   # Service type (e.g., ClusterIP, NodePort)
+  port: 5432                        # Port exposed by the Service
+  targetPort: 5432                  # Target port in the container
+
+configMap:
+  name: backend-config-map # Name of the ConfigMap
+  data:
+    dbHost: postgres-cluster-ip-service # Database host (Service name)
+    dbPort: "5432"                      # Database port
+    dbUser: postgres                    # Database user
+    dbName: postgres                    # Database name
+    port: "3000"                        # Backend application port
+    mode: production                    # Backend application mode

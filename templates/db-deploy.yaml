@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.deployment.name }}
-  namespace: {{ .Values.deployment.namespace }}
+  namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.labels.app }}
 spec:
@@ -15,7 +15,7 @@ spec:
       labels:
         component: {{ .Values.labels.component }}
     spec:
-      serviceAccountName: {{ .Values.serviceAccountName }}
+      serviceAccountName: {{ index .Values.serviceAccounts 0 }}
       containers:
         - name: {{ .Values.container.name }}
           image: {{ .Values.container.image }}

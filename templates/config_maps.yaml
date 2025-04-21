@@ -7,8 +7,8 @@ metadata:
     app: {{ .Values.labels.app }}
 data:
   DB_HOST: {{ .Values.configMap.data.dbHost }}
-  DB_PORT: {{ .Values.configMap.data.dbPort }}
+  DB_PORT: {{ .Values.configMap.data.dbPort | quote }}
   DB_USER: {{ .Values.configMap.data.dbUser }}
   DB_NAME: {{ .Values.configMap.data.dbName }}
-  PORT: {{ .Values.configMap.data.port }}
+  PORT: {{ .Values.configMap.data.port | quote }}
   MODE: {{ .Values.configMap.data.mode }}

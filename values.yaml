@@ -72,3 +72,7 @@ configMap:
     dbName: postgres                    # Database name
     port: "3000"                        # Backend application port
     mode: production                    # Backend application mode
+
+secret:
+  name: postgres-secret
+  key: password

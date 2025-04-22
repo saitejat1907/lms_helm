@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backend.deployment.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.backend.labels.app }}
+spec:
+  replicas: {{ .Values.backend.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.backend.labels.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.backend.labels.app }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccounts[1] }} # app-sa
+      containers:
+        - name: backend-container
+          image: "{{ .Values.backend.container.image }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.backend.container.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.configMap.name }}
+          env:
+            - name: DB_HOST
+              value: {{ .Values.configMap.data.dbHost }}
+            - name: DB_PORT
+              value: "{{ .Values.configMap.data.dbPort }}" # Ensure it is a string
+            - name: DB_USER
+              value: {{ .Values.configMap.data.dbUser }}
+            - name: DB_NAME
+              value: {{ .Values.configMap.data.dbName }}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: {{ .Values.secret.key }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.backend.service.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.backend.service.type }}
+  ports:
+    - port: {{ .Values.backend.service.port }}
+      targetPort: {{ .Values.backend.container.port }}
+  selector:
+    app: {{ .Values.backend.labels.app }}

@@ -28,6 +28,41 @@ service:
   port: 5432                        # Port exposed by the Service
   targetPort: 5432                  # Target port in the container
 
+backend:
+  deployment:
+    name: lms-be
+    replicas: 1
+
+  labels:
+    app: lms-be
+
+  container:
+    image: saitejat1907/k8s-be
+    port: 3000
+
+  service:
+    name: lms-be-service
+    type: LoadBalancer
+    port: 3000
+
+
+frontend:
+  deployment:
+    name: lms-fe
+    replicas: 1
+
+  labels:
+    app: lms-fe
+
+  container:
+    image: saitejat1907/k8s-fe
+    port: 80
+
+  service:
+    name: lms-fe-service
+    type: LoadBalancer
+    port: 80
+
 configMap:
   name: backend-config-map # Name of the ConfigMap
   data:

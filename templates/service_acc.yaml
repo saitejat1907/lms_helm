@@ -11,4 +11,5 @@ kind: ServiceAccount
 metadata:
   name: {{ . }}
   namespace: {{ $.Values.namespace }}
+---
 {{- end }}

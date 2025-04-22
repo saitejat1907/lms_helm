@@ -15,7 +15,7 @@ spec:
       labels:
         app: {{ .Values.frontend.labels.app }}
     spec:
-      serviceAccountName: {{ .Values.serviceAccounts[2] }} # web-sa
+      serviceAccountName: {{ index .Values.serviceAccounts 2  }} # web-sa
       containers:
         - name: frontend-container
           image: "{{ .Values.frontend.container.image }}"
